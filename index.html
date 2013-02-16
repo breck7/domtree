@@ -120,7 +120,17 @@ path.link {
   left: 10px;
   padding: 5px;
   font-size: 18px;
-  width: 400px;
+  width: 500px;
+  z-index: 5;
+}
+#body {
+  transform-origin: 0 0;
+  -webkit-transform-origin: 0 0;
+  transform:scale(0.5,0.5);
+  -ms-transform:scale(0.5,0.5); /* IE 9 */
+  -moz-transform:scale(0.5,0.5); /* Firefox */
+  -webkit-transform:scale(0.5,0.5); /* Safari and Chrome */
+  -o-transform:scale(0.5,0.5); /* Opera */
 }
     </style>
   </head>
@@ -131,8 +141,8 @@ path.link {
     <script type="text/javascript">
 
 var m = [20, 120, 20, 120],
-    w = 1280 - m[1] - m[3],
-    h = 800 - m[0] - m[2],
+    w = 2460 - m[1] - m[3],
+    h = 1600 - m[0] - m[2],
     i = 0,
     root;
 
