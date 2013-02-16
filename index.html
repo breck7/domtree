@@ -114,10 +114,18 @@ path.link {
   stroke: #ccc;
   stroke-width: 1.5px;
 }
-
+#source {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  padding: 5px;
+  font-size: 18px;
+  width: 400px;
+}
     </style>
   </head>
   <body>
+    <input id="source" value="breckyunits.com/ruby" onchange="fetch()">
     <div id="body">
     </div>
     <script type="text/javascript">
@@ -140,17 +148,21 @@ var vis = d3.select("#body").append("svg:svg")
   .append("svg:g")
     .attr("transform", "translate(" + m[3] + "," + m[0] + ")");
 
+var fetch = function () {
+  $.get('/get/' + $('#source').val(), {}, function (data) {
+    
+    json = data
+
+    root = json;
+    root.x0 = h / 2;
+    root.y0 = 0;
+
+    update(root)
+  }, 'json')
+}
 
 $(document).on('ready', function () {
-  
-    
-  json = $('body').toTree()
-
-  root = json;
-  root.x0 = h / 2;
-  root.y0 = 0;
-
-  update(root)
+  fetch()
 })
 
 function update(source) {
