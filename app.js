@@ -21,11 +21,16 @@ $.fn.toTree = function () {
   return tree
 }
 
+var cache = {}
+
 app.get('/get/*', function (req, res, next) {
   var url = 'http://' + req.params[0]
+  if (cache[url])
+    return res.send(cache[url])
   request.get(url, function (response) {
     var page = $(response.text)
-    res.send(JSON.stringify($('body', page).toTree()))
+    cache[url] = JSON.stringify($('body', page).toTree())
+    res.send(cache[url])
   })
 
 })
