@@ -9,7 +9,7 @@ http://domtree.breckyunits.com
 
 ### Example
 
-![Screenshot](https://github.com/breck7/domtree/raw/master/src/screenshot.png "Google.com Visualized")
+![Screenshot](https://github.com/breck7/domtree/raw/master/screenshot.png "Google.com Visualized")
 
 ### Credit
 
