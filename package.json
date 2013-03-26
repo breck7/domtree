@@ -1,9 +1,9 @@
 {
-  "name": "pagetree",
+  "name": "domtree",
   "version": "0.1.1",
   "description": "See the DOM tree.",
-  "repository": "git://github.com/breck7/pagetree",
-  "main": "pagetree.js",
+  "repository": "git://github.com/breck7/domtree",
+  "main": "app.js",
   "dependencies": {
     "jquery": ">=1.8.3"
   },

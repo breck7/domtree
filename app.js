@@ -4,6 +4,9 @@ var express = require('express'),
     request = require('superagent'),
     app = express()
 
+var args = process.argv.slice(2)
+var port = (args.length ? args[0] : 8080)
+
 app.use('/', express.static(__dirname + '/', { maxAge: 31557600000 }))
 
 $.fn.toTree = function () {
@@ -18,7 +21,6 @@ $.fn.toTree = function () {
   return tree
 }
 
-
 app.get('/get/*', function (req, res, next) {
   var url = 'http://' + req.params[0]
   request.get(url, function (response) {
@@ -28,7 +30,4 @@ app.get('/get/*', function (req, res, next) {
 
 })
 
-
-var port = 8080
 app.listen(port)
-console.log('Started on port ' + port)
