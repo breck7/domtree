@@ -162,16 +162,43 @@ html,input, div {
 #wayback a:hover {
   text-decoration: underline;
 }
+#go {
+  position: fixed;
+  right: 20px;
+  top: 0px;
+  font-size: 22px;
+  padding: 10px;
+  z-index: 10000;
+  color: blue;
+}
+#go:hover {
+  text-decoration: underline;
+}
     </style>
   </head>
   <body>
-    <input id="source" value="google.com/" onchange="fetch()" onkeypress="if (event.keyCode == 13) {fetch()}">
+    <input id="source" value="google.com/" onchange="fetch()" onkeypress="keyPress()">
     <div id="wayback"><a onclick="wayback(1998)">1998</a>  <a onclick="wayback(2003)">2003</a>  <a onclick="wayback(2008)">2008</a></div>
-    
+    <a href="http://google.com" id="go" target="domtree">Go</a>
     <a href="http://github.com/breck7/domtree" id="github">Fork me on Github</a>
     <div id="body">
     </div>
     <script type="text/javascript">
+
+    
+    var keyPress = function () {
+      if (event.keyCode == 13)
+        fetch()
+      updateGo()
+    }
+    
+    var updateGo = function () {
+      
+        var url =  $('#source').val()
+        if (!url.match(/^https?\:/))
+          url = 'http://' + url
+        $('#go').attr('href', url)
+    }
 
 var m = [20, 120, 20, 120],
     w = 2460 - m[1] - m[3],
@@ -195,9 +222,8 @@ var fetch = function () {
   var url =  $('#source').val()
   if (!url.match(/^https?\:/))
     url = 'http://' + url
-  
-  $.get('/get/' + url, {}, function (data) {
     
+  $.get('/get/' + url, {}, function (data) {
     json = data
 
     root = json;
@@ -216,6 +242,7 @@ var wayback = function (year) {
   else
     $('#source').val(url.replace(/web\/[0-9]+\//, 'web/' + year + '/'))
   fetch()
+  updateGo()
 }
 
 $(document).on('ready', function () {
