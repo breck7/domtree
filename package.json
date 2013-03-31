@@ -7,7 +7,8 @@
   "dependencies": {
     "jquery": ">=1.8.3",
     "express" : ">=3.0.0",
-    "superagent" : ">=0.9.5"
+    "superagent" : ">=0.9.5",
+    "request" : ">=0.0.1"
   },
   "keywords": [
     "d3",
