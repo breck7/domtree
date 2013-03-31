@@ -24,10 +24,14 @@ $.fn.toTree = function () {
 var cache = {}
 
 app.get('/get/*', function (req, res, next) {
-  var url = 'http://' + req.params[0]
+  var url = req.params[0]
+  if (!url.match(/^https?\:/))
+    url = 'http://' + url
   if (cache[url])
     return res.send(cache[url])
   request.get(url, function (response) {
+    if (response.statusCode !== 200)
+      return res.send(response.text, response.statusCode)
     var page = $(response.text)
     cache[url] = JSON.stringify($('body', page).toTree())
     res.send(cache[url])

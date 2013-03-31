@@ -151,7 +151,7 @@ html,input, div {
     </style>
   </head>
   <body>
-    <input id="source" value="google.com/" onchange="fetch()">
+    <input id="source" value="google.com/" onchange="fetch()" onkeypress="if (event.keyCode == 13) {fetch()}">
     <a href="http://github.com/breck7/domtree" id="github">Fork me on Github</a>
     <div id="body">
     </div>
