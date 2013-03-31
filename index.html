@@ -147,11 +147,27 @@ html,input, div {
   right: 10px;
   z-index: 1000;
 }
-
+#wayback {
+  position: fixed;
+  right: 0;
+  top: 50px;
+  font-size: 12px;
+  z-index: 10000;
+}
+#wayback a {
+  color: blue;
+  margin-left: 10px;
+  cursor: pointer;
+}
+#wayback a:hover {
+  text-decoration: underline;
+}
     </style>
   </head>
   <body>
     <input id="source" value="google.com/" onchange="fetch()" onkeypress="if (event.keyCode == 13) {fetch()}">
+    <div id="wayback"><a onclick="wayback(1998)">1998</a>  <a onclick="wayback(2003)">2003</a>  <a onclick="wayback(2008)">2008</a></div>
+    
     <a href="http://github.com/breck7/domtree" id="github">Fork me on Github</a>
     <div id="body">
     </div>
@@ -176,7 +192,11 @@ var vis = d3.select("#body").append("svg:svg")
     .attr("transform", "translate(" + m[3] + "," + m[0] + ")");
 
 var fetch = function () {
-  $.get('/get/' + $('#source').val(), {}, function (data) {
+  var url =  $('#source').val()
+  if (!url.match(/^https?\:/))
+    url = 'http://' + url
+  
+  $.get('/get/' + url, {}, function (data) {
     
     json = data
 
@@ -186,6 +206,16 @@ var fetch = function () {
 
     update(root)
   }, 'json')
+}
+
+var wayback = function (year) {
+  var url = $('#source').val()
+  // http://web.archive.org/web/19981212023331/
+  if (!url.match(/^http\:\/\/web\.archive\.org\/web\/[0-9]+\//))
+    $('#source').val( 'http://web.archive.org/web/' + year + '/' + 'http://' + url)
+  else
+    $('#source').val(url.replace(/web\/[0-9]+\//, 'web/' + year + '/'))
+  fetch()
 }
 
 $(document).on('ready', function () {

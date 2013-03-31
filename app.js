@@ -1,7 +1,7 @@
 var express = require('express'),
     $ = require('jquery'),
     fs = require('fs'),
-    request = require('superagent'),
+    request = require('request'),
     app = express()
 
 var args = process.argv.slice(2)
@@ -25,14 +25,13 @@ var cache = {}
 
 app.get('/get/*', function (req, res, next) {
   var url = req.params[0]
-  if (!url.match(/^https?\:/))
-    url = 'http://' + url
   if (cache[url])
     return res.send(cache[url])
-  request.get(url, function (response) {
-    if (response.statusCode !== 200)
-      return res.send(response.text, response.statusCode)
-    var page = $(response.text)
+  request.get(url, function (error, response) {
+    console.log(response)
+    if (error)
+      return res.send(response.body, 400)
+    var page = $(response.body)
     cache[url] = JSON.stringify($('body', page).toTree())
     res.send(cache[url])
   })
