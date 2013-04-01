@@ -128,13 +128,6 @@ path.link {
   z-index: 5;
 }
 #body {
-  transform-origin: 0 0;
-  -webkit-transform-origin: 0 0;
-  transform:scale(0.5,0.5);
-  -ms-transform:scale(0.5,0.5); /* IE 9 */
-  -moz-transform:scale(0.5,0.5); /* Firefox */
-  -webkit-transform:scale(0.5,0.5); /* Safari and Chrome */
-  -o-transform:scale(0.5,0.5); /* Opera */
 }
 
 html,input, div {
@@ -221,8 +214,8 @@ var diagonal = d3.svg.diagonal()
     .projection(function(d) { return [d.y, d.x]; });
 
 var vis = d3.select("#body").append("svg:svg")
-    .attr("width", w + m[1] + m[3])
-    .attr("height", h + m[0] + m[2])
+    .attr("viewBox", "0 0 " + w + " " + h )
+    .attr("preserveAspectRatio", "xMidYMid meet")
   .append("svg:g")
     .attr("transform", "translate(" + m[3] + "," + m[0] + ")");
 
