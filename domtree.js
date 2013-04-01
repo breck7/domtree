@@ -72,8 +72,10 @@ $(document).on('ready', function () {
   diagonal = d3.svg.diagonal()
         .projection(function(d) { return [d.y, d.x]; });
 
+
   vis = d3.select("#body").append("svg:svg")
         .attr("viewBox", "0 0 " + w + " " + h )
+        .call(d3.behavior.zoom().on("zoom", redraw))
         .attr("preserveAspectRatio", "xMidYMid meet")
         .append("svg:g")
         .attr("transform", "translate(" + m[3] + "," + m[0] + ")");
@@ -175,6 +177,10 @@ function update(source) {
     d.x0 = d.x;
     d.y0 = d.y;
   });
+}
+
+var redraw = function () {
+  console.log('todo')
 }
 
 // Toggle children.
