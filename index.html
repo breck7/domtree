@@ -149,10 +149,13 @@ html,input, div {
 }
 #wayback {
   position: fixed;
-  right: 0;
+  left: 0;
   top: 50px;
   font-size: 12px;
   z-index: 10000;
+}
+#wayback div {
+  margin-top: 10px;
 }
 #wayback a {
   color: blue;
@@ -162,29 +165,28 @@ html,input, div {
 #wayback a:hover {
   text-decoration: underline;
 }
-#go {
-  position: fixed;
-  right: 20px;
-  top: 0px;
-  font-size: 22px;
-  padding: 10px;
-  z-index: 10000;
-  color: blue;
-}
-#go:hover {
-  text-decoration: underline;
+#error {
+  color: red;
 }
     </style>
   </head>
   <body>
-    <input id="source" value="google.com/" onchange="fetch()" onkeypress="keyPress()">
+    <input id="source" value="google.com/" onchange="fetch()" onkeyup="keyPress()">
     <div id="wayback">
-      <a onclick="wayback(1998)">1998</a>
-      <a onclick="wayback(2003)">2003</a>
-      <a onclick="wayback(2008)">2008</a>
-      <div><span id="count"></span> dom elements</div>
+      <a href="http://google.com" id="go" target="domtree">http://google.com/</a> &nbsp;&nbsp;&nbsp;&nbsp;
+      
+      <span><span id="count"></span> dom elements</span>
+      <span id="processing"></span>
+      <span id="error"></span>
+      <br>
+      <div>
+        <span style="margin-left: 10px;">Wayback: </span>
+        <a onclick="wayback(1998)">1998</a>
+        <a onclick="wayback(2003)">2003</a>
+        <a onclick="wayback(2008)">2008</a>
+      </div>
     </div>
-    <a href="http://google.com" id="go" target="domtree">Go</a>
+    
     <a href="http://github.com/breck7/domtree" id="github">Fork me on Github</a>
     <div id="body">
     </div>
@@ -203,6 +205,7 @@ html,input, div {
         if (!url.match(/^https?\:/))
           url = 'http://' + url
         $('#go').attr('href', url)
+        $('#go').text(url)
     }
 
 var m = [20, 120, 20, 120],
@@ -224,22 +227,33 @@ var vis = d3.select("#body").append("svg:svg")
     .attr("transform", "translate(" + m[3] + "," + m[0] + ")");
 
 var fetch = function () {
+  $('#processing').html('Fetching...')
   var url =  $('#source').val()
   if (!url.match(/^https?\:/))
     url = 'http://' + url
-    
-  $.get('/get/' + url, {}, function (data) {
-    json = data
-    
-    var elementCount = JSON.stringify(data).match(/\"size\"/g).length
-    $('#count').text(elementCount)
+  
+  $.ajax({
+    url: '/get/' + url,
+    dataType: 'json',
+    method : 'GET',
+    }).success(function (data) {
+      json = data
 
-    root = json;
-    root.x0 = h / 2;
-    root.y0 = 0;
+      var elementCount = JSON.stringify(data).match(/\"size\"/g).length
+      $('#count').text(elementCount)
 
-    update(root)
-  }, 'json')
+      root = json;
+      root.x0 = h / 2;
+      root.y0 = 0;
+      $('#processing').html('')
+      update(root)
+    }).error(function (error) {
+      $('#error').html(error.statusText)
+      $('#processing').html('')
+      console.log(error)
+  });
+  
+  
 }
 
 var wayback = function (year) {

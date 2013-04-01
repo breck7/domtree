@@ -28,9 +28,8 @@ app.get('/get/*', function (req, res, next) {
   if (cache[url])
     return res.send(cache[url])
   request.get(url, function (error, response) {
-    console.log(response)
     if (error)
-      return res.send(response.body, 400)
+      return res.send(error, 400)
     var page = $(response.body)
     cache[url] = JSON.stringify($('body', page).toTree())
     res.send(cache[url])
