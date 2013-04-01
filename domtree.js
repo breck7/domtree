@@ -54,6 +54,27 @@ domtree.wayback = function (year) {
   domtree.updateVisitLink()
 }
 
+/**
+ * http://stackoverflow.com/questions/901115/get-query-string-values-in-javascript
+ *
+ * @return {object}
+ */
+var parseQueryString = function () {
+  var query = {};
+  (function () {
+      var match,
+          pl     = /\+/g,  // Regex for replacing addition symbol with a space
+          search = /([^&=]+)=?([^&]*)/g,
+          decode = function (s) { return decodeURIComponent(s.replace(pl, " ")) },
+          query_string  = window.location.search.substring(1)
+  
+      while (match = search.exec(query_string))
+         query[decode(match[1])] = decode(match[2])
+  })()
+  return query
+}
+
+
 var m = [20, 120, 20, 120],
     w = 2460 - m[1] - m[3],
     h = 1600 - m[0] - m[2],
@@ -65,6 +86,10 @@ var m = [20, 120, 20, 120],
 
 $(document).on('ready', function () {
   
+  var queryString = parseQueryString()
+  var url = document.location.pathname
+  if (url.substr(0,6) === '/view/')
+    $('#source').val(url.substr(6))
 
   tree = d3.layout.tree()
         .size([h, w]);

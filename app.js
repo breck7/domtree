@@ -8,6 +8,7 @@ var args = process.argv.slice(2)
 var port = (args.length ? args[0] : 8080)
 
 app.use('/', express.static(__dirname + '/', { maxAge: 31557600000 }))
+var indexPage = fs.readFileSync('./index.html', 'utf8')
 
 $.fn.toTree = function () {
   var tree = { "name" : $(this).get(0).tagName + ($(this).attr('id') ? '#' + $(this).attr('id') : '')  }
@@ -35,6 +36,10 @@ app.get('/get/*', function (req, res, next) {
     res.send(cache[url])
   })
 
+})
+
+app.get('/view/*', function (req, res, next) {
+  res.send(indexPage)
 })
 
 app.listen(port)
