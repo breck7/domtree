@@ -178,7 +178,12 @@ html,input, div {
   </head>
   <body>
     <input id="source" value="google.com/" onchange="fetch()" onkeypress="keyPress()">
-    <div id="wayback"><a onclick="wayback(1998)">1998</a>  <a onclick="wayback(2003)">2003</a>  <a onclick="wayback(2008)">2008</a></div>
+    <div id="wayback">
+      <a onclick="wayback(1998)">1998</a>
+      <a onclick="wayback(2003)">2003</a>
+      <a onclick="wayback(2008)">2008</a>
+      <div><span id="count"></span> dom elements</div>
+    </div>
     <a href="http://google.com" id="go" target="domtree">Go</a>
     <a href="http://github.com/breck7/domtree" id="github">Fork me on Github</a>
     <div id="body">
@@ -225,6 +230,9 @@ var fetch = function () {
     
   $.get('/get/' + url, {}, function (data) {
     json = data
+    
+    var elementCount = JSON.stringify(data).match(/\"size\"/g).length
+    $('#count').text(elementCount)
 
     root = json;
     root.x0 = h / 2;
