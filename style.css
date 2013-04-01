@@ -110,14 +110,14 @@ path.link {
 }
 #source {
   position: fixed;
-  top: 0px;
-  left: 0px;
+  top: 20px;
+  left: 20px;
   padding: 8px;
-  font-size: 22px;
-  width: 100%;
-  border: 0;
-  outline: 0;
+  font-size: 16px;
   z-index: 5;
+  opacity: 0.8;
+  width: 600px;
+
 }
 #body {
 }
@@ -134,8 +134,8 @@ html,input, div {
 }
 #wayback {
   position: fixed;
-  left: 0;
-  top: 50px;
+  left: 10px;
+  top: 70px;
   font-size: 12px;
   z-index: 10000;
 }
