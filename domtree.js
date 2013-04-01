@@ -181,6 +181,9 @@ function update(source) {
 
 var redraw = function () {
   console.log('todo')
+  //var tx = t[0] * d3.event.scale + ;
+//        var ty = t[1] * d3.event.scale + ;
+  vis.attr("transform", "translate(" + d3.event.translate[0] + "," + d3.event.translate[1] + ")");
 }
 
 // Toggle children.
