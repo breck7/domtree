@@ -10,7 +10,7 @@ var port = (args.length ? args[0] : 8080)
 app.use('/', express.static(__dirname + '/', { maxAge: 31557600000 }))
 
 $.fn.toTree = function () {
-  var tree = { "name" : $(this).get(0).tagName }
+  var tree = { "name" : $(this).get(0).tagName + ($(this).attr('id') ? '#' + $(this).attr('id') : '')  }
 
   if (!$(this).children().length)
     tree.size = $(this).text().length
