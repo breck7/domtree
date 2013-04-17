@@ -24,16 +24,21 @@ domtree.fetch = function () {
     url: '/get/' + url,
     dataType: 'json',
     method : 'GET',
-  }).success(function (json) {
-  
+  }).success(function (page) {
+    console.log(page)
     // Update element count
-    var elementCount = JSON.stringify(json).match(/\"size\"/g).length
+    var elementCount = JSON.stringify(page.json).match(/\"size\"/g).length
     $('#count').text(elementCount)
+    
+    $('#bytes').text(Math.round(page.bytes/1000))
+    
+    $('#contentBytes').text((100 * page.contentBytes / page.bytes).toFixed(0))
   
-    root = json
+    root = page.json
     root.x0 = h / 2
     root.y0 = 0
     $('#processing').html('')
+    $('#error').html('')
     update(root)
   }).error(function (error) {
     $('#error').html(error.statusText)
