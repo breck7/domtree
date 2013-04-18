@@ -126,12 +126,6 @@ html,input, div {
   margin: 0;
   padding: 0;
 }
-#github {
-  position: fixed;
-  bottom: 10px;
-  right: 10px;
-  z-index: 1000;
-}
 #wayback {
   position: fixed;
   left: 10px;
