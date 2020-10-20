@@ -1,7 +1,7 @@
 DomTree
 =======
 
-DomTree gives you a neat visualization of any page on the web.
+DomTree gives you a neat visualization of any page on the website.
 
 ### Try it
 
